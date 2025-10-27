@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iFrames vs Web Components — Performance Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>iFrames vs Web Components — Performance Dashboard</h1>
+    <div class="controls">
+      <button id="refreshBtn">Refresh</button>
+      <label>
+        Filter implementation:
+        <select id="implFilter">
+          <option value="all">All</option>
+          <option value="iframe">iframe</option>
+          <option value="web-component">web-component</option>
+        </select>
+      </label>
+      <label>
+        Instances:
+        <select id="countFilter">
+          <option value="all">All</option>
+          <option value="1">1</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+        </select>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Summary</h2>
+      <div id="summary" class="summary-grid">
+        <div class="metric"><div class="label">Total runs</div><div class="value" id="totalRuns">–</div></div>
+        <div class="metric"><div class="label">Avg load time (ms)</div><div class="value" id="avgLoad">–</div></div>
+        <div class="metric"><div class="label">Avg FCP (ms)</div><div class="value" id="avgFcp">–</div></div>
+        <div class="metric"><div class="label">Avg memory (MB)</div><div class="value" id="avgMem">–</div></div>
+        <div class="metric"><div class="label">Avg FPS</div><div class="value" id="avgFps">–</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Runs</h2>
+      <div id="emptyState" class="empty" hidden>No data files found yet. Run the tests to generate results.</div>
+      <table id="resultsTable" class="results">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Implementation</th>
+            <th>Instances</th>
+            <th>Load (ms)</th>
+            <th>FP (ms)</th>
+            <th>FCP (ms)</th>
+            <th>DOM Interactive (ms)</th>
+            <th>DOM Complete (ms)</th>
+            <th>Avg Memory (MB)</th>
+            <th>Avg FPS</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
