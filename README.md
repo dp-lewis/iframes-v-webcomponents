@@ -20,52 +20,49 @@ Both implementations will have identical functionality and styling to ensure a f
 
 ```
 ├── iframe/
-│   ├── scoreboard.html     # Scoreboard widget as iframe
-│   ├── scoreboard.css      # Styles for iframe scoreboard
-│   ├── scoreboard.js       # JavaScript for iframe scoreboard
-│   └── tests/             # Test pages for iframe implementation
-│       ├── single.html    # Single instance test
-│       ├── five.html      # Five instances test
-│       └── ten.html       # Ten instances test
+│   ├── scoreboard.html       # Scoreboard widget page (iframe content)
+│   ├── scoreboard.js         # iFrame scoreboard logic
+│   └── tests/                # Article-like host pages embedding the iframe
+│       ├── single.html       # 1 instance
+│       ├── five.html         # 5 instances
+│       └── ten.html          # 10 instances
 │
 ├── web-component/
-│   ├── scoreboard.html     # Web Component demo page
-│   ├── scoreboard.css      # Styles for web component
-│   ├── scoreboard.js       # Web Component definition
-│   └── tests/             # Test pages for web component
-│       ├── single.html    # Single instance test
-│       ├── five.html      # Five instances test
-│       └── ten.html       # Ten instances test
+│   ├── scoreboard.html       # Demo page using the web component
+│   ├── scoreboard.js         # Web Component (shadow DOM + inline styles)
+│   └── tests/                # Article-like host pages embedding the component
+│       ├── single.html       # 1 instance
+│       ├── five.html         # 5 instances
+│       └── ten.html          # 10 instances
 │
 ├── shared/
-│   ├── data/              # Static JSON mock data
-│   ├── styles/            # Common CSS styles
-│   └── test-data/         # Test fixture data
+│   ├── styles/
+│   │   ├── article.css       # Article layout styles used by test pages
+│   │   └── scoreboard.css    # Shared scoreboard styles (used by iframe)
+│   └── data/
+│       └── games.json        # Static mock data
 │
 ├── tests/
-│   ├── performance.js     # Performance test scripts
-│   └── utils.js          # Test utilities
+│   ├── performance.spec.js   # Automated Playwright test
+│   └── utils/
+│       └── performance.js    # Metrics collection + file save helpers
 │
 └── dashboard/
-    ├── index.html        # Results dashboard
-    ├── styles.css        # Dashboard styles
-    ├── app.js           # Dashboard logic
-    └── data/           # Test results storage
+  ├── index.html            # Results dashboard
+  ├── styles.css            # Dashboard styles
+  ├── app.js                # Loads JSON runs and renders UI
+  └── data/
+    └── .gitkeep          # Folder for generated JSON results (git-ignored)
 ```
 
 ## Performance Metrics
 
-### Primary Metrics (Lighthouse)
+### Primary Metrics (from Performance API)
+- Load time (navigation to first render)
+- First Paint (FP)
 - First Contentful Paint (FCP)
-- Largest Contentful Paint (LCP)
-- Time to Interactive (TTI)
-- Total Blocking Time (TBT)
-- Cumulative Layout Shift (CLS)
-
-### Core Web Vitals
-- LCP (Largest Contentful Paint)
-- FID (First Input Delay)
-- CLS (Cumulative Layout Shift)
+- DOM Interactive
+- DOM Complete
 
 ### Custom Metrics
 - Memory usage (per instance and total)
@@ -111,11 +108,9 @@ Both implementations will have identical functionality and styling to ensure a f
    - Browser resource allocation differences
 
 ### Testing Tools
-- Playwright for automation
-- Lighthouse for core metrics
-- web-vitals library for Core Web Vitals
-- Custom performance marks and measures
-- Chrome DevTools Performance API
+- Playwright for automation and navigation timing
+- Performance API (paint and timing entries)
+- Custom performance marks and measures (in code)
 
 ## Data Collection & Analysis
 
@@ -134,47 +129,85 @@ Both implementations will have identical functionality and styling to ensure a f
 ## Technology Stack
 
 ### Development
-- **Languages**: 
-  - Vanilla JavaScript (No frameworks or build tools)
-  - Plain CSS
-  - HTML
-- **Server**: Simple HTTP server for development
-- **Mock Data**: Static JSON sports data
-- **Philosophy**: Zero-build, no transpilation or bundling
+- Languages: Vanilla JavaScript, CSS, HTML (no build tools)
+- Server: Simple `http-server`
+- Mock Data: Static JSON sports data
+- Philosophy: Zero-build, no transpilation or bundling
 
 ### Testing
-- **Framework**: Playwright
-  - Multi-browser engine support
-  - Built-in network throttling
-  - Lighthouse integration
-- **Performance**: 
-  - Lighthouse for core metrics
-  - web-vitals library for Core Web Vitals
-  - Custom Performance API implementations
-  - Chrome DevTools Performance API
+- Framework: Playwright (Chromium)
+- Performance: Performance API (FP/FCP/DOM timings), sampled FPS, JS heap usage via `performance.memory`
 
 ### Dashboard
-- **Visualization**: Chart.js
-  - Real-time data updates
-  - Comparative visualizations
-  - Time-series analysis
-- **Data Storage**: JSON
-  - Structured test results
-  - Version controlled history
-  - Easy export/import
+- Vanilla JS + CSS (no chart libs)
+- Reads JSON run files from `dashboard/data/`
 
 ### Automation
-- **Build Scripts**: Node.js
-- **Test Automation**: Playwright
-- **Data Processing**: Custom Node.js scripts
+- npm scripts for serving, testing, and cleaning artifacts
 
-## Running Tests
+## Quick Start
 
-(To be added: Instructions for running tests locally)
+Prerequisites:
+- Node.js 18+ and npm
+
+Install dependencies (first time):
+
+```bash
+npm install
+npx playwright install chromium
+```
+
+Start the local server (terminal A):
+
+```bash
+npm run serve
+```
+
+Open the demo pages directly (optional):
+- iFrame: http://localhost:8080/iframe/tests/single.html | five.html | ten.html
+- Web Component: http://localhost:8080/web-component/tests/single.html | five.html | ten.html
+
+Run automated measurements (terminal B):
+
+```bash
+npm test
+```
+
+This runs both implementations with 1, 5, and 10 instances and writes JSON results to `dashboard/data/`.
 
 ## Viewing Results
 
-(To be added: Instructions for accessing and interpreting the dashboard)
+Open the dashboard:
+
+- http://localhost:8080/dashboard/index.html
+
+How to use:
+- Click “Refresh” to load the latest JSON files from `dashboard/data/`
+- Filter by implementation (iframe vs web-component) and instance count (1/5/10)
+- Summary shows averages across the current filter
+- Table shows each run: load time, FP, FCP, DOM Interactive, DOM Complete, Avg Memory (MB), Avg FPS
+
+Notes:
+- If “implementation” shows “unknown”, those runs were created before metadata was added; rerun tests or delete old JSON files.
+
+## Cleaning Generated Files
+
+```bash
+npm run clean:reports
+```
+
+This clears Playwright reports and dashboard JSON runs. The `dashboard/data/` folder stays (tracked via `.gitkeep`).
+
+## Version Control
+
+- Generated artifacts (Playwright reports and `dashboard/data/*.json`) are ignored by Git via `.gitignore`.
+- Commit only the source code, tests, and dashboard app — not the generated results.
+
+## Optional: Add Lighthouse Later
+
+To keep dependencies minimal, Lighthouse isn’t wired into the automated run. If you want to add it later:
+- Run Lighthouse CLI against a page (e.g., one of the test pages)
+- Save results JSON alongside other runs and extend the dashboard to read Lighthouse scores
 
 ## Contributing
 
