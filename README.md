@@ -19,11 +19,38 @@ Both implementations will have identical functionality and styling to ensure a f
 ## Project Structure
 
 ```
-├── iframe/                 # iFrame implementation
-├── web-component/         # Web Component implementation
-├── test/                  # Testing infrastructure
-├── dashboard/            # Metrics visualization
-└── data/                # Test results storage
+├── iframe/
+│   ├── scoreboard.html     # Scoreboard widget as iframe
+│   ├── scoreboard.css      # Styles for iframe scoreboard
+│   ├── scoreboard.js       # JavaScript for iframe scoreboard
+│   └── tests/             # Test pages for iframe implementation
+│       ├── single.html    # Single instance test
+│       ├── five.html      # Five instances test
+│       └── ten.html       # Ten instances test
+│
+├── web-component/
+│   ├── scoreboard.html     # Web Component demo page
+│   ├── scoreboard.css      # Styles for web component
+│   ├── scoreboard.js       # Web Component definition
+│   └── tests/             # Test pages for web component
+│       ├── single.html    # Single instance test
+│       ├── five.html      # Five instances test
+│       └── ten.html       # Ten instances test
+│
+├── shared/
+│   ├── data/              # Static JSON mock data
+│   ├── styles/            # Common CSS styles
+│   └── test-data/         # Test fixture data
+│
+├── tests/
+│   ├── performance.js     # Performance test scripts
+│   └── utils.js          # Test utilities
+│
+└── dashboard/
+    ├── index.html        # Results dashboard
+    ├── styles.css        # Dashboard styles
+    ├── app.js           # Dashboard logic
+    └── data/           # Test results storage
 ```
 
 ## Performance Metrics
@@ -106,11 +133,40 @@ Both implementations will have identical functionality and styling to ensure a f
 
 ## Technology Stack
 
-- **Testing**: Playwright
-- **Metrics**: Lighthouse, web-vitals
+### Development
+- **Languages**: 
+  - Vanilla JavaScript (No frameworks or build tools)
+  - Plain CSS
+  - HTML
+- **Server**: Simple HTTP server for development
+- **Mock Data**: Static JSON sports data
+- **Philosophy**: Zero-build, no transpilation or bundling
+
+### Testing
+- **Framework**: Playwright
+  - Multi-browser engine support
+  - Built-in network throttling
+  - Lighthouse integration
+- **Performance**: 
+  - Lighthouse for core metrics
+  - web-vitals library for Core Web Vitals
+  - Custom Performance API implementations
+  - Chrome DevTools Performance API
+
+### Dashboard
 - **Visualization**: Chart.js
+  - Real-time data updates
+  - Comparative visualizations
+  - Time-series analysis
 - **Data Storage**: JSON
-- **Automation**: Node.js scripts
+  - Structured test results
+  - Version controlled history
+  - Easy export/import
+
+### Automation
+- **Build Scripts**: Node.js
+- **Test Automation**: Playwright
+- **Data Processing**: Custom Node.js scripts
 
 ## Running Tests
 
