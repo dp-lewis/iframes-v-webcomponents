@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Championship Night - Full Coverage</title>
+    <link rel="stylesheet" href="../../shared/styles/article.css">
+</head>
+<body>
+    <article>
+        <h1>Championship Night - Full Coverage</h1>
+        <p>Tonight marks the biggest night in sports with ten simultaneous championship games across the league. Follow all the action live as it happens.</p>
+
+        <div class="scoreboards-grid">
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+        </div>
+
+        <div class="article-image">
+            [Championship Series Image]
+        </div>
+
+        <p>This unprecedented night of championship games will determine the winners across all divisions. Every game counts, and every point matters.</p>
+        
+        <p>Our team of analysts will be providing live commentary throughout the evening as the champions are crowned.</p>
+    </article>
+
+    <script>
+        // Simple score update simulation for multiple scoreboards
+        const iframes = document.querySelectorAll('iframe');
+        const loaded = new Set();
+
+        iframes.forEach(iframe => {
+            iframe.addEventListener('load', () => {
+                loaded.add(iframe);
+            });
+        });
+
+        // Simulate random score updates
+        setInterval(() => {
+            iframes.forEach(iframe => {
+                if (!loaded.has(iframe)) return;
+                
+                const homeScore = Math.floor(Math.random() * 100);
+                const awayScore = Math.floor(Math.random() * 100);
+                
+                iframe.contentWindow.postMessage({
+                    type: 'UPDATE_SCORE',
+                    data: { home: homeScore, away: awayScore }
+                }, '*');
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

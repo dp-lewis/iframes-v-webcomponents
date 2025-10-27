@@ -9,12 +9,6 @@ class SportsScoreboard extends HTMLElement {
     }
 
     connectedCallback() {
-        // Import shared styles
-        const linkElem = document.createElement('link');
-        linkElem.setAttribute('rel', 'stylesheet');
-        linkElem.setAttribute('href', '../shared/styles/scoreboard.css');
-        
-        this.shadowRoot.appendChild(linkElem);
         this.render();
         
         // Dispatch ready event
@@ -65,7 +59,70 @@ class SportsScoreboard extends HTMLElement {
 
     render() {
         this.shadowRoot.innerHTML = `
-            <link rel="stylesheet" href="../shared/styles/scoreboard.css">
+            <style>
+                .scoreboard {
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                    background: #1a1a1a;
+                    color: #ffffff;
+                    border-radius: 8px;
+                    padding: 1rem;
+                    width: 300px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                }
+
+                .scoreboard-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1rem;
+                    padding-bottom: 0.5rem;
+                    border-bottom: 1px solid #333;
+                }
+
+                .game-status {
+                    font-size: 0.875rem;
+                    color: #00ff00;
+                }
+
+                .game-time {
+                    font-size: 0.875rem;
+                    color: #cccccc;
+                }
+
+                .teams {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .team {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+
+                .team-name {
+                    font-weight: bold;
+                    font-size: 1.125rem;
+                }
+
+                .team-score {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                    min-width: 2.5rem;
+                    text-align: right;
+                }
+
+                @keyframes score-update {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.2); }
+                    100% { transform: scale(1); }
+                }
+
+                .score-updated {
+                    animation: score-update 0.3s ease-in-out;
+                }
+            </style>
             <div class="scoreboard">
                 <div class="scoreboard-header">
                     <span class="game-status">${this.getAttribute('game-status')}</span>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonight's Games - Live Coverage</title>
+    <link rel="stylesheet" href="../../shared/styles/article.css">
+    <script src="../scoreboard.js"></script>
+</head>
+<body>
+    <article>
+        <h1>Tonight's Games - Live Coverage</h1>
+        <p>Follow all of tonight's crucial playoff matchups in one place. Five games that will determine who moves forward in the championship series.</p>
+
+        <div class="scoreboards-grid">
+            <sports-scoreboard id="game1" home-team="Red Dragons" away-team="Blue Knights" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game2" home-team="Green Eagles" away-team="Yellow Lions" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game3" home-team="Purple Wizards" away-team="Orange Tigers" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game4" home-team="Silver Wolves" away-team="Bronze Bears" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game5" home-team="Gold Stars" away-team="Black Hawks" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+        </div>
+
+        <div class="article-image">
+            [Games Highlight Image]
+        </div>
+
+        <p>Each of these games represents a critical moment in the playoff series. Teams have been preparing all season for these crucial matchups.</p>
+        
+        <p>Stay tuned as we provide live updates and commentary for each game throughout the evening.</p>
+    </article>
+
+    <script>
+        // Simple score update simulation for multiple scoreboards
+        const scoreboards = document.querySelectorAll('sports-scoreboard');
+
+        // Simulate random score updates
+        setInterval(() => {
+            scoreboards.forEach(scoreboard => {
+                const homeScore = Math.floor(Math.random() * 100);
+                const awayScore = Math.floor(Math.random() * 100);
+                
+                scoreboard.setAttribute('home-score', homeScore);
+                scoreboard.setAttribute('away-score', awayScore);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Major Playoff Game Tonight - Sports News</title>
+    <link rel="stylesheet" href="../../shared/styles/article.css">
+</head>
+<body>
+    <article>
+        <h1>Major Playoff Game Tonight</h1>
+        <p>In what promises to be an exciting matchup, the Red Dragons face off against the Blue Knights in tonight's playoff game. Both teams have shown exceptional performance this season.</p>
+        
+        <div class="scoreboard-container">
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+        </div>
+
+        <div class="article-image">
+            [Featured Game Image]
+        </div>
+
+        <p>The Red Dragons, coming off a strong regular season, will be looking to leverage their home-court advantage. Meanwhile, the Blue Knights have been exceptional in away games this year.</p>
+        
+        <p>Fans are particularly excited about this matchup given the historic rivalry between these teams. The last time they met in the playoffs, the game went into triple overtime.</p>
+    </article>
+
+    <script>
+        // Simple score update simulation
+        let iframeLoaded = false;
+        const iframe = document.querySelector('iframe');
+        
+        iframe.addEventListener('load', () => {
+            iframeLoaded = true;
+        });
+
+        // Simulate random score updates
+        setInterval(() => {
+            if (!iframeLoaded) return;
+            
+            const homeScore = Math.floor(Math.random() * 100);
+            const awayScore = Math.floor(Math.random() * 100);
+            
+            iframe.contentWindow.postMessage({
+                type: 'UPDATE_SCORE',
+                data: { home: homeScore, away: awayScore }
+            }, '*');
+        }, 5000);
+    </script>
+</body>
+</html>

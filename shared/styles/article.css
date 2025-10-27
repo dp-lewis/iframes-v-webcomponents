@@ -1,0 +1,45 @@
+/* Simple article styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+.scoreboard-container {
+    margin: 2rem 0;
+    /* Center the scoreboard */
+    display: flex;
+    justify-content: center;
+}
+
+/* For articles with multiple scoreboards */
+.scoreboards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* Simple placeholder for article image */
+.article-image {
+    width: 100%;
+    height: 300px;
+    background-color: #f0f0f0;
+    margin: 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}

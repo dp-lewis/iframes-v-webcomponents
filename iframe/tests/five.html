@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonight's Games - Live Coverage</title>
+    <link rel="stylesheet" href="../../shared/styles/article.css">
+</head>
+<body>
+    <article>
+        <h1>Tonight's Games - Live Coverage</h1>
+        <p>Follow all of tonight's crucial playoff matchups in one place. Five games that will determine who moves forward in the championship series.</p>
+
+        <div class="scoreboards-grid">
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+            <iframe src="../scoreboard.html" width="300" height="200" frameborder="0"></iframe>
+        </div>
+
+        <div class="article-image">
+            [Games Highlight Image]
+        </div>
+
+        <p>Each of these games represents a critical moment in the playoff series. Teams have been preparing all season for these crucial matchups.</p>
+        
+        <p>Stay tuned as we provide live updates and commentary for each game throughout the evening.</p>
+    </article>
+
+    <script>
+        // Simple score update simulation for multiple scoreboards
+        const iframes = document.querySelectorAll('iframe');
+        const loaded = new Set();
+
+        iframes.forEach(iframe => {
+            iframe.addEventListener('load', () => {
+                loaded.add(iframe);
+            });
+        });
+
+        // Simulate random score updates
+        setInterval(() => {
+            iframes.forEach(iframe => {
+                if (!loaded.has(iframe)) return;
+                
+                const homeScore = Math.floor(Math.random() * 100);
+                const awayScore = Math.floor(Math.random() * 100);
+                
+                iframe.contentWindow.postMessage({
+                    type: 'UPDATE_SCORE',
+                    data: { home: homeScore, away: awayScore }
+                }, '*');
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

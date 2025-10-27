@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Championship Night - Full Coverage</title>
+    <link rel="stylesheet" href="../../shared/styles/article.css">
+    <script src="../scoreboard.js"></script>
+</head>
+<body>
+    <article>
+        <h1>Championship Night - Full Coverage</h1>
+        <p>Tonight marks the biggest night in sports with ten simultaneous championship games across the league. Follow all the action live as it happens.</p>
+
+        <div class="scoreboards-grid">
+            <sports-scoreboard id="game1" home-team="Red Dragons" away-team="Blue Knights" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game2" home-team="Green Eagles" away-team="Yellow Lions" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game3" home-team="Purple Wizards" away-team="Orange Tigers" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game4" home-team="Silver Wolves" away-team="Bronze Bears" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game5" home-team="Gold Stars" away-team="Black Hawks" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game6" home-team="White Knights" away-team="Crimson Kings" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game7" home-team="Jade Dragons" away-team="Ruby Phoenix" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game8" home-team="Sapphire Sharks" away-team="Emerald Eagles" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game9" home-team="Diamond Dogs" away-team="Pearl Panthers" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+            <sports-scoreboard id="game10" home-team="Topaz Tigers" away-team="Onyx Owls" home-score="0" away-score="0" game-status="LIVE" period="1st" time-remaining="12:00"></sports-scoreboard>
+        </div>
+
+        <div class="article-image">
+            [Championship Series Image]
+        </div>
+
+        <p>This unprecedented night of championship games will determine the winners across all divisions. Every game counts, and every point matters.</p>
+        
+        <p>Our team of analysts will be providing live commentary throughout the evening as the champions are crowned.</p>
+    </article>
+
+    <script>
+        // Simple score update simulation for multiple scoreboards
+        const scoreboards = document.querySelectorAll('sports-scoreboard');
+
+        // Simulate random score updates
+        setInterval(() => {
+            scoreboards.forEach(scoreboard => {
+                const homeScore = Math.floor(Math.random() * 100);
+                const awayScore = Math.floor(Math.random() * 100);
+                
+                scoreboard.setAttribute('home-score', homeScore);
+                scoreboard.setAttribute('away-score', awayScore);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
