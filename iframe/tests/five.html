@@ -27,32 +27,5 @@
         
         <p>Stay tuned as we provide live updates and commentary for each game throughout the evening.</p>
     </article>
-
-    <script>
-        // Simple score update simulation for multiple scoreboards
-        const iframes = document.querySelectorAll('iframe');
-        const loaded = new Set();
-
-        iframes.forEach(iframe => {
-            iframe.addEventListener('load', () => {
-                loaded.add(iframe);
-            });
-        });
-
-        // Simulate random score updates
-        setInterval(() => {
-            iframes.forEach(iframe => {
-                if (!loaded.has(iframe)) return;
-                
-                const homeScore = Math.floor(Math.random() * 100);
-                const awayScore = Math.floor(Math.random() * 100);
-                
-                iframe.contentWindow.postMessage({
-                    type: 'UPDATE_SCORE',
-                    data: { home: homeScore, away: awayScore }
-                }, '*');
-            });
-        }, 5000);
-    </script>
 </body>
 </html>

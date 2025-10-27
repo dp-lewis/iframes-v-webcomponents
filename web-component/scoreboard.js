@@ -16,6 +16,27 @@ class SportsScoreboard extends HTMLElement {
             bubbles: true,
             composed: true
         }));
+        
+        // Start self-contained update simulation
+        this.startSimulation();
+    }
+
+    disconnectedCallback() {
+        // Clean up interval when component is removed
+        if (this.simulationInterval) {
+            clearInterval(this.simulationInterval);
+        }
+    }
+
+    startSimulation() {
+        // Simulate random score updates every 5 seconds
+        this.simulationInterval = setInterval(() => {
+            const homeScore = Math.floor(Math.random() * 100);
+            const awayScore = Math.floor(Math.random() * 100);
+            
+            this.setAttribute('home-score', homeScore);
+            this.setAttribute('away-score', awayScore);
+        }, 5000);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

@@ -23,28 +23,5 @@
         
         <p>Fans are particularly excited about this matchup given the historic rivalry between these teams. The last time they met in the playoffs, the game went into triple overtime.</p>
     </article>
-
-    <script>
-        // Simple score update simulation
-        let iframeLoaded = false;
-        const iframe = document.querySelector('iframe');
-        
-        iframe.addEventListener('load', () => {
-            iframeLoaded = true;
-        });
-
-        // Simulate random score updates
-        setInterval(() => {
-            if (!iframeLoaded) return;
-            
-            const homeScore = Math.floor(Math.random() * 100);
-            const awayScore = Math.floor(Math.random() * 100);
-            
-            iframe.contentWindow.postMessage({
-                type: 'UPDATE_SCORE',
-                data: { home: homeScore, away: awayScore }
-            }, '*');
-        }, 5000);
-    </script>
 </body>
 </html>

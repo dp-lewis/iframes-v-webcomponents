@@ -5,11 +5,14 @@ class Scoreboard {
         this.homeScore = document.querySelector('.team-score[data-team="home"]');
         this.awayScore = document.querySelector('.team-score[data-team="away"]');
         
-        // Listen for score updates from parent
+        // Listen for score updates from parent (for external control if needed)
         window.addEventListener('message', this.handleMessage.bind(this));
         
         // Signal ready to parent
         window.parent.postMessage({ type: 'SCOREBOARD_READY' }, '*');
+        
+        // Start self-contained update simulation
+        this.startSimulation();
     }
 
     handleMessage(event) {
@@ -26,6 +29,16 @@ class Scoreboard {
                 this.updateStatus(data);
                 break;
         }
+    }
+
+    startSimulation() {
+        // Simulate random score updates every 5 seconds
+        setInterval(() => {
+            const homeScore = Math.floor(Math.random() * 100);
+            const awayScore = Math.floor(Math.random() * 100);
+            
+            this.updateScore({ home: homeScore, away: awayScore });
+        }, 5000);
     }
 
     updateScore(data) {
