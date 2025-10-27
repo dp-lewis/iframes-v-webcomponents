@@ -6,8 +6,9 @@
   "scripts": {
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "performance": "playwright test performance.spec.ts",
-    "serve": "http-server . -p 8080"
+    "performance": "playwright test tests/performance.spec.js",
+    "serve": "http-server . -p 8080",
+    "clean:reports": "rm -rf playwright-report test-results dashboard/data/*.json"
   },
   "repository": {
     "type": "git",
