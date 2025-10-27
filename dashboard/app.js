@@ -19,9 +19,11 @@
     const html = await res.text();
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
+    const jsonHrefRe = /\.json(\?|$)/i;
     const links = Array.from(doc.querySelectorAll('a'))
       .map(a => a.getAttribute('href'))
-      .filter(href => href && href.toLowerCase().endsWith('.json'));
+      .filter(href => href && jsonHrefRe.test(href))
+      .map(href => href.trim());
     return links;
   }
 
@@ -36,7 +38,11 @@
       }
 
       const fetches = files.map(f => {
-        const href = f.startsWith('http') ? f : (f.startsWith('/') ? f : dataDir + f);
+        // Resolve to absolute URL to avoid base path issues
+        let href = f;
+        if (!/^https?:\/\//i.test(f)) {
+          href = f.startsWith('/') ? f : (dataDir + f);
+        }
         return fetch(href).then(r => r.json().then(j => ({ file: f, data: j })));
       });
       const loaded = await Promise.all(fetches);
@@ -46,7 +52,7 @@
         const base = ((file.split('/').pop() || file).split('?')[0] || '').trim();
 
         // Prefer metadata from JSON if available
-        let implementation = (data && data._meta && data._meta.implementation) ? String(data._meta.implementation).toLowerCase() : null;
+  let implementation = (data && data._meta && data._meta.implementation) ? String(data._meta.implementation).toLowerCase() : null;
         let instances = (data && data._meta && data._meta.instances != null) ? Number(data._meta.instances) : null;
         let timestamp = (data && data._meta && data._meta.timestamp != null) ? Number(data._meta.timestamp) : null;
 
@@ -65,6 +71,11 @@
             const tsMatch = base.match(/(\d+)\.json$/);
             timestamp = timestamp || (tsMatch ? Number(tsMatch[1]) : Date.now());
           }
+        }
+
+        // Final normalization
+        if (implementation !== 'iframe' && implementation !== 'web-component') {
+          implementation = 'unknown';
         }
 
         const mem = Array.isArray(data.memoryUsage) ? data.memoryUsage : [];
