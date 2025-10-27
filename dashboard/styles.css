@@ -17,6 +17,15 @@ header h1 { margin: 0; font-size: 18px; font-weight: 600; }
 .controls { margin-left: auto; display: flex; gap: 12px; align-items: center; }
 main { padding: 24px; max-width: 1200px; margin: 0 auto; }
 
+.intro { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 24px; }
+.intro p { margin: 0 0 12px 0; color: #374151; }
+.link-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.link-card { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; }
+.link-card .link-title { font-weight: 600; margin-bottom: 8px; color: #111827; }
+.link-card ul { margin: 0; padding-left: 16px; }
+.link-card a { color: #2563eb; text-decoration: none; }
+.link-card a:hover { text-decoration: underline; }
+
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(160px, 1fr));

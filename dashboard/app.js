@@ -14,7 +14,17 @@
 
   async function listJsonFiles() {
     // http-server exposes a directory index HTML — parse links
-    const res = await fetch(dataDir);
+    // Add cache-busting query + no-store to avoid stale directory listing
+    const bust = `t=${Date.now()}`;
+    const url = dataDir.endsWith('/') ? `${dataDir}?${bust}` : `${dataDir}/?${bust}`;
+    const res = await fetch(url, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
     if (!res.ok) throw new Error('Failed to load data directory');
     const html = await res.text();
     const parser = new DOMParser();
@@ -43,7 +53,17 @@
         if (!/^https?:\/\//i.test(f)) {
           href = f.startsWith('/') ? f : (dataDir + f);
         }
-        return fetch(href).then(r => r.json().then(j => ({ file: f, data: j })));
+        // Add cache buster to JSON file fetch as well
+        const sep = href.includes('?') ? '&' : '?';
+        const bustedHref = `${href}${sep}t=${Date.now()}`;
+        return fetch(bustedHref, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        }).then(r => r.json().then(j => ({ file: f, data: j })));
       });
       const loaded = await Promise.all(fetches);
 
@@ -117,10 +137,13 @@
 
     for (const r of filtered) {
       const tr = document.createElement('tr');
+      const pageName = r.instances === 1 ? 'single' : (r.instances === 5 ? 'five' : (r.instances === 10 ? 'ten' : String(r.instances)));
+      const testHref = `/${r.implementation}/tests/${pageName}.html`;
       tr.innerHTML = `
         <td>${new Date(r.timestamp).toLocaleString()}</td>
         <td>${r.implementation}</td>
         <td>${r.instances}</td>
+        <td><a href="${testHref}" target="_blank" rel="noopener noreferrer">open</a></td>
         <td>${fmt(r.loadTime)}</td>
         <td>${fmt(r.firstPaint)}</td>
         <td>${fmt(r.fcp)}</td>

@@ -32,6 +32,32 @@
   </header>
 
   <main>
+    <section class="intro">
+      <h2>About this dashboard</h2>
+      <p>
+        This dashboard aggregates performance runs comparing two implementations of the same sports scoreboard widget:
+        an iframe-based version and a Web Component. Test pages load <strong>1</strong>, <strong>5</strong>, or <strong>10</strong>
+        instances to observe scalability. The automated tests (Playwright) open these pages, collect metrics, and save results here.
+      </p>
+      <div class="link-grid">
+        <div class="link-card">
+          <div class="link-title">iframe test pages</div>
+          <ul>
+            <li><a href="/iframe/tests/single.html" target="_blank" rel="noopener noreferrer">1 instance (single.html)</a></li>
+            <li><a href="/iframe/tests/five.html" target="_blank" rel="noopener noreferrer">5 instances (five.html)</a></li>
+            <li><a href="/iframe/tests/ten.html" target="_blank" rel="noopener noreferrer">10 instances (ten.html)</a></li>
+          </ul>
+        </div>
+        <div class="link-card">
+          <div class="link-title">web-component test pages</div>
+          <ul>
+            <li><a href="/web-component/tests/single.html" target="_blank" rel="noopener noreferrer">1 instance (single.html)</a></li>
+            <li><a href="/web-component/tests/five.html" target="_blank" rel="noopener noreferrer">5 instances (five.html)</a></li>
+            <li><a href="/web-component/tests/ten.html" target="_blank" rel="noopener noreferrer">10 instances (ten.html)</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
     <section>
       <h2>Summary</h2>
       <div id="summary" class="summary-grid">
@@ -52,6 +78,7 @@
             <th>Time</th>
             <th>Implementation</th>
             <th>Instances</th>
+            <th>Test Page</th>
             <th>Load (ms)</th>
             <th>FP (ms)</th>
             <th>FCP (ms)</th>
