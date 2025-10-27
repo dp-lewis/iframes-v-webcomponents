@@ -156,6 +156,7 @@
     }
 
     updateSummary(filtered);
+    updateComparison(runs);
   }
 
   function updateSummary(rows) {
@@ -188,6 +189,81 @@
     const f = Number(n);
     if (Number.isNaN(f)) return '–';
     return f.toFixed(digits);
+  }
+
+  function pct(a, b) {
+    if (a == null || b == null || !isFinite(a) || !isFinite(b) || b === 0) return null;
+    return ((a - b) / b) * 100;
+  }
+
+  function updateComparison(allRuns) {
+    const container = document.getElementById('compareTable');
+    if (!container) return;
+
+    // Group by instances and implementation
+    const byInst = new Map(); // inst -> { iframe: [], wc: [] }
+    for (const r of allRuns) {
+      if (!byInst.has(r.instances)) byInst.set(r.instances, { iframe: [], 'web-component': [] });
+      byInst.get(r.instances)[r.implementation]?.push(r);
+    }
+
+    const instances = Array.from(byInst.keys()).sort((a,b)=>a-b);
+    if (!instances.length) {
+      container.innerHTML = '<div class="empty">No data available for comparison yet.</div>';
+      return;
+    }
+
+    const rows = [];
+    const metrics = [
+      { key: 'loadTime', label: 'Load (ms)', digits: 0 },
+      { key: 'fcp', label: 'FCP (ms)', digits: 0 },
+      { key: 'avgMemMB', label: 'Avg Memory (MB)', digits: 2 },
+      { key: 'avgFps', label: 'Avg FPS', digits: 1 },
+    ];
+
+    function avgFor(list, key) {
+      return avg(list.map(x => x[key]));
+    }
+
+    for (const inst of instances) {
+      const group = byInst.get(inst);
+      const iframeList = group.iframe;
+      const wcList = group['web-component'];
+      for (const m of metrics) {
+        const iVal = avgFor(iframeList, m.key);
+        const wVal = avgFor(wcList, m.key);
+        const delta = (iVal != null && wVal != null) ? (iVal - wVal) : null; // iframe - web-component
+        const deltaPct = pct(iVal, wVal);
+        const cls = delta == null ? 'delta-neutral' : (delta < 0 ? 'delta-pos' : (delta > 0 ? 'delta-neg' : 'delta-neutral'));
+        const deltaStr = (delta == null ? '–' : `${delta >= 0 ? '+' : ''}${fmt(delta, m.digits)}`) + (deltaPct == null ? '' : ` (${deltaPct >= 0 ? '+' : ''}${fmt(deltaPct, 1)}%)`);
+        rows.push(`
+          <tr>
+            <td>${inst}</td>
+            <td>${m.label}</td>
+            <td>${fmt(iVal, m.digits)}</td>
+            <td>${fmt(wVal, m.digits)}</td>
+            <td class="${cls}">${deltaStr}</td>
+          </tr>
+        `);
+      }
+    }
+
+    container.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Instances</th>
+            <th>Metric</th>
+            <th>iframe avg</th>
+            <th>web-component avg</th>
+            <th>delta (iframe - web-component)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.join('')}
+        </tbody>
+      </table>
+    `;
   }
 
   // initial load
