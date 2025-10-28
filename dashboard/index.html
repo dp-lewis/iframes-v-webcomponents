@@ -129,6 +129,85 @@
         <tbody></tbody>
       </table>
     </section>
+
+    <section class="metrics-reference">
+      <h2>Metrics Reference</h2>
+      <p class="reference-intro">Understanding what each performance metric measures and why it matters for user experience and application performance.</p>
+      
+      <div class="metric-cards">
+        <div class="metric-card">
+          <h3>Load Time</h3>
+          <div class="metric-description">
+            <p><strong>What it measures:</strong> Time from navigation start until the page <code>load</code> event fires (all resources loaded).</p>
+            <p><strong>Why it matters:</strong> Indicates when the page is fully interactive and all scripts, styles, and images have finished loading. Critical for perceived performance and user engagement.</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <h3>First Paint (FP)</h3>
+          <div class="metric-description">
+            <p><strong>What it measures:</strong> Time until the browser renders the first pixel on screen - any visual change from blank.</p>
+            <p><strong>Why it matters:</strong> First signal to the user that the page is loading. Reduces perceived latency and shows progress.</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <h3>First Contentful Paint (FCP)</h3>
+          <div class="metric-description">
+            <p><strong>What it measures:</strong> Time until the browser renders the first piece of DOM content (text, image, SVG, or non-white canvas).</p>
+            <p><strong>Why it matters:</strong> Part of Google's Core Web Vitals. Shows when users can first see meaningful content. Directly impacts user perception of speed.</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <h3>DOM Interactive</h3>
+          <div class="metric-description">
+            <p><strong>What it measures:</strong> Time when the HTML document has been completely parsed and the DOM tree is built (but resources may still be loading).</p>
+            <p><strong>Why it matters:</strong> Indicates when JavaScript can start manipulating the DOM. Shows parser performance and blocking script impact.</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <h3>DOM Complete</h3>
+          <div class="metric-description">
+            <p><strong>What it measures:</strong> Time when the page and all sub-resources (images, scripts, styles) have finished loading.</p>
+            <p><strong>Why it matters:</strong> Marks the end of page loading. All synchronous resources are available. Fires just before the <code>load</code> event.</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <h3>Memory Usage</h3>
+          <div class="metric-description">
+            <p><strong>What it measures:</strong> Average JavaScript heap size (in MB) during page operation, sampled over time.</p>
+            <p><strong>Why it matters:</strong> High memory usage can cause performance degradation, crashes on memory-constrained devices, and poor battery life. Critical for mobile users.</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <h3>Frame Rate (FPS)</h3>
+          <div class="metric-description">
+            <p><strong>What it measures:</strong> Average frames per second during page updates and animations, measured via <code>requestAnimationFrame</code>.</p>
+            <p><strong>Why it matters:</strong> Smooth animations require 60 FPS. Lower frame rates appear janky and hurt user experience. Indicates rendering performance and main thread blocking.</p>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <h3>Statistical Metrics</h3>
+          <div class="metric-description">
+            <p><strong>p50 (median):</strong> The middle value — half of runs performed better, half worse. Best indicator of typical user experience.</p>
+            <p><strong>p95 (95th percentile):</strong> Only 5% of runs were slower. Critical for SLAs and understanding worst-case scenarios that affect real users.</p>
+            <p><strong>σ (standard deviation):</strong> Measures variability. Low σ = consistent, predictable performance. High σ = unpredictable, potentially problematic.</p>
+            <p><strong>Why percentiles matter:</strong> Averages hide outliers. A page that loads in 100ms 99 times and 10,000ms once has an average of 199ms, but most users saw 100ms. The p95 would be 10,000ms, revealing the true problem.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="methodology-note">
+        <h3>Testing Methodology</h3>
+        <p>All tests run via Playwright in Chromium using the Performance API. Multiple runs (17 per scenario) capture variance. Cache-busting ensures fresh loads. Metrics collected during actual user interactions, not synthetic benchmarks.</p>
+        <p><strong>Test scenarios:</strong> 1, 5, and 10 concurrent widget instances to measure scalability and multi-instance overhead.</p>
+      </div>
+    </section>
   </main>
 
   <script src="app.js"></script>

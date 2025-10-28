@@ -72,3 +72,85 @@ button { cursor: pointer; }
 .delta-pos { color: #16a34a; font-weight: 600; }
 .delta-neg { color: #dc2626; font-weight: 600; }
 .delta-neutral { color: #6b7280; font-weight: 600; }
+
+/* Metrics Reference Section */
+.metrics-reference {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 2px solid #e5e7eb;
+}
+.metrics-reference h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #111827;
+}
+.reference-intro {
+  margin: 0 0 24px 0;
+  color: #6b7280;
+  font-size: 15px;
+}
+.metric-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.metric-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  transition: box-shadow 0.2s;
+}
+.metric-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.metric-card h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #3b82f6;
+}
+.metric-description p {
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #374151;
+}
+.metric-description p strong {
+  color: #111827;
+  font-weight: 600;
+}
+.metric-description code {
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 13px;
+  color: #dc2626;
+}
+.methodology-note {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+.methodology-note h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+.methodology-note p {
+  margin: 8px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #4b5563;
+}
+.methodology-note strong {
+  color: #111827;
+  font-weight: 600;
+}
