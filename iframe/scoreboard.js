@@ -8,30 +8,8 @@ class Scoreboard {
         this.gameEvents = [];
         this.currentEventIndex = 0;
         
-        // Listen for score updates from parent (for external control if needed)
-        window.addEventListener('message', this.handleMessage.bind(this));
-        
-        // Signal ready to parent
-        window.parent.postMessage({ type: 'SCOREBOARD_READY' }, '*');
-        
         // Start self-contained update simulation
         this.startSimulation();
-    }
-
-    handleMessage(event) {
-        const { type, data } = event.data;
-        
-        switch (type) {
-            case 'UPDATE_SCORE':
-                this.updateScore(data);
-                break;
-            case 'UPDATE_TIME':
-                this.updateTime(data);
-                break;
-            case 'UPDATE_STATUS':
-                this.updateStatus(data);
-                break;
-        }
     }
 
     async startSimulation() {

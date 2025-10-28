@@ -40,7 +40,7 @@ Both implementations will have identical functionality and styling to ensure a f
 │   │   ├── article.css       # Article layout styles used by test pages
 │   │   └── scoreboard.css    # Shared scoreboard styles (used by iframe)
 │   └── data/
-│       └── games.json        # Static mock data
+│       └── game-events.json  # Realistic game progression data (chronological scoring events)
 │
 ├── tests/
 │   ├── performance.spec.js   # Automated Playwright test

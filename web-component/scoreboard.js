@@ -13,18 +13,12 @@ class SportsScoreboard extends HTMLElement {
     connectedCallback() {
         this.render();
         
-        // Dispatch ready event
-        this.dispatchEvent(new CustomEvent('scoreboard-ready', {
-            bubbles: true,
-            composed: true
-        }));
-        
         // Start self-contained update simulation
         this.startSimulation();
     }
 
     disconnectedCallback() {
-        // Clean up interval when component is removed
+        // Clean up timeout when component is removed
         if (this.simulationTimeout) {
             clearTimeout(this.simulationTimeout);
         }
