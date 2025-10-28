@@ -18,6 +18,14 @@ async function collectMetrics(url, duration = 5000) {
   await page.goto(url);
   metrics.loadTime = Date.now() - startTime;
 
+  // Wait for paint timing to be available (but don't include this in loadTime)
+  await page.waitForFunction(() => {
+    const paints = performance.getEntriesByType('paint');
+    return paints.length > 0;
+  }, { timeout: 5000 }).catch(() => {
+    // If paint timing doesn't arrive, continue anyway
+  });
+
   const performanceMetrics = await page.evaluate(() => {
     const paints = performance.getEntriesByType('paint');
     const fp = paints.find(p => p.name === 'first-paint');
