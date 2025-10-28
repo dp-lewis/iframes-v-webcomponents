@@ -58,19 +58,52 @@
         </div>
       </div>
     </section>
+
     <section>
-      <h2>Summary</h2>
-    <section>
-      <h2>Comparison — averages by implementation</h2>
+      <h2>Comparison — median by implementation</h2>
       <div id="compareTable" class="compare"></div>
     </section>
 
+    <section>
+      <h2>Summary Statistics</h2>
+      <div class="stats-guide">
+        <p><strong>How to read these metrics:</strong></p>
+        <ul>
+          <li><strong>p50 (median):</strong> The typical performance — 50% of runs were faster, 50% slower. Use this to understand normal user experience.</li>
+          <li><strong>p95:</strong> The "worst-case" performance — only 5% of runs were slower. Critical for understanding outliers and setting SLAs.</li>
+          <li><strong>σ (standard deviation):</strong> Measures consistency. Lower values = more predictable performance; higher values = more variability.</li>
+        </ul>
+        <p><em>💡 Lower values are better for all metrics (time, memory). Higher FPS is better.</em></p>
+      </div>
       <div id="summary" class="summary-grid">
-        <div class="metric"><div class="label">Total runs</div><div class="value" id="totalRuns">–</div></div>
-        <div class="metric"><div class="label">Avg load time (ms)</div><div class="value" id="avgLoad">–</div></div>
-        <div class="metric"><div class="label">Avg FCP (ms)</div><div class="value" id="avgFcp">–</div></div>
-        <div class="metric"><div class="label">Avg memory (MB)</div><div class="value" id="avgMem">–</div></div>
-        <div class="metric"><div class="label">Avg FPS</div><div class="value" id="avgFps">–</div></div>
+        <div class="metric">
+          <div class="label">Total runs</div>
+          <div class="value" id="totalRuns">–</div>
+        </div>
+        <div class="metric stat-detail">
+          <div class="label">Load Time (ms)</div>
+          <div class="stat-row"><span class="stat-label">p50:</span><span class="value" id="loadP50">–</span></div>
+          <div class="stat-row"><span class="stat-label">p95:</span><span class="value" id="loadP95">–</span></div>
+          <div class="stat-row"><span class="stat-label">σ:</span><span class="value" id="loadStd">–</span></div>
+        </div>
+        <div class="metric stat-detail">
+          <div class="label">FCP (ms)</div>
+          <div class="stat-row"><span class="stat-label">p50:</span><span class="value" id="fcpP50">–</span></div>
+          <div class="stat-row"><span class="stat-label">p95:</span><span class="value" id="fcpP95">–</span></div>
+          <div class="stat-row"><span class="stat-label">σ:</span><span class="value" id="fcpStd">–</span></div>
+        </div>
+        <div class="metric stat-detail">
+          <div class="label">Memory (MB)</div>
+          <div class="stat-row"><span class="stat-label">p50:</span><span class="value" id="memP50">–</span></div>
+          <div class="stat-row"><span class="stat-label">p95:</span><span class="value" id="memP95">–</span></div>
+          <div class="stat-row"><span class="stat-label">σ:</span><span class="value" id="memStd">–</span></div>
+        </div>
+        <div class="metric stat-detail">
+          <div class="label">FPS</div>
+          <div class="stat-row"><span class="stat-label">p50:</span><span class="value" id="fpsP50">–</span></div>
+          <div class="stat-row"><span class="stat-label">p95:</span><span class="value" id="fpsP95">–</span></div>
+          <div class="stat-row"><span class="stat-label">σ:</span><span class="value" id="fpsStd">–</span></div>
+        </div>
       </div>
     </section>
 

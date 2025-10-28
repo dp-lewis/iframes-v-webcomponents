@@ -163,21 +163,83 @@
     const totalRuns = rows.length;
     setText('totalRuns', totalRuns || '–');
 
-    const avgLoad = avg(rows.map(r => r.loadTime));
-    const avgFcp = avg(rows.map(r => r.fcp));
-    const avgMem = avg(rows.map(r => r.avgMemMB));
-    const avgFps = avg(rows.map(r => r.avgFps));
+    if (!rows.length) {
+      setText('loadP50', '–'); setText('loadP95', '–'); setText('loadStd', '–');
+      setText('fcpP50', '–'); setText('fcpP95', '–'); setText('fcpStd', '–');
+      setText('memP50', '–'); setText('memP95', '–'); setText('memStd', '–');
+      setText('fpsP50', '–'); setText('fpsP95', '–'); setText('fpsStd', '–');
+      return;
+    }
 
-    setText('avgLoad', fmt(avgLoad));
-    setText('avgFcp', fmt(avgFcp));
-    setText('avgMem', fmt(avgMem, 2));
-    setText('avgFps', fmt(avgFps, 1));
+    const loadStats = stats(rows.map(r => r.loadTime));
+    const fcpStats = stats(rows.map(r => r.fcp));
+    const memStats = stats(rows.map(r => r.avgMemMB));
+    const fpsStats = stats(rows.map(r => r.avgFps));
+
+    setText('loadP50', fmt(loadStats.p50));
+    setText('loadP95', fmt(loadStats.p95));
+    setText('loadStd', fmt(loadStats.stdDev));
+
+    setText('fcpP50', fmt(fcpStats.p50));
+    setText('fcpP95', fmt(fcpStats.p95));
+    setText('fcpStd', fmt(fcpStats.stdDev));
+
+    setText('memP50', fmt(memStats.p50, 2));
+    setText('memP95', fmt(memStats.p95, 2));
+    setText('memStd', fmt(memStats.stdDev, 2));
+
+    setText('fpsP50', fmt(fpsStats.p50, 1));
+    setText('fpsP95', fmt(fpsStats.p95, 1));
+    setText('fpsStd', fmt(fpsStats.stdDev, 1));
   }
 
   function avg(arr) {
     const vals = arr.filter(v => typeof v === 'number' && !Number.isNaN(v));
     if (!vals.length) return null;
     return vals.reduce((a,b)=>a+b,0)/vals.length;
+  }
+
+  function percentile(arr, p) {
+    const vals = arr.filter(v => typeof v === 'number' && !Number.isNaN(v)).sort((a,b) => a - b);
+    if (!vals.length) return null;
+    const index = (p / 100) * (vals.length - 1);
+    const lower = Math.floor(index);
+    const upper = Math.ceil(index);
+    const weight = index % 1;
+    if (lower === upper) return vals[lower];
+    return vals[lower] * (1 - weight) + vals[upper] * weight;
+  }
+
+  function stdDev(arr) {
+    const vals = arr.filter(v => typeof v === 'number' && !Number.isNaN(v));
+    if (vals.length < 2) return null;
+    const mean = vals.reduce((a,b)=>a+b,0) / vals.length;
+    const variance = vals.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / vals.length;
+    return Math.sqrt(variance);
+  }
+
+  function min(arr) {
+    const vals = arr.filter(v => typeof v === 'number' && !Number.isNaN(v));
+    if (!vals.length) return null;
+    return Math.min(...vals);
+  }
+
+  function max(arr) {
+    const vals = arr.filter(v => typeof v === 'number' && !Number.isNaN(v));
+    if (!vals.length) return null;
+    return Math.max(...vals);
+  }
+
+  function stats(arr) {
+    return {
+      p50: percentile(arr, 50),
+      p95: percentile(arr, 95),
+      p99: percentile(arr, 99),
+      stdDev: stdDev(arr),
+      min: min(arr),
+      max: max(arr),
+      count: arr.filter(v => typeof v === 'number' && !Number.isNaN(v)).length
+    };
   }
 
   function setText(id, value) {
@@ -217,12 +279,12 @@
     const metrics = [
       { key: 'loadTime', label: 'Load (ms)', digits: 0 },
       { key: 'fcp', label: 'FCP (ms)', digits: 0 },
-      { key: 'avgMemMB', label: 'Avg Memory (MB)', digits: 2 },
-      { key: 'avgFps', label: 'Avg FPS', digits: 1 },
+      { key: 'avgMemMB', label: 'Memory (MB)', digits: 2 },
+      { key: 'avgFps', label: 'FPS', digits: 1 },
     ];
 
-    function avgFor(list, key) {
-      return avg(list.map(x => x[key]));
+    function medianFor(list, key) {
+      return percentile(list.map(x => x[key]), 50);
     }
 
     for (const inst of instances) {
@@ -230,8 +292,8 @@
       const iframeList = group.iframe;
       const wcList = group['web-component'];
       for (const m of metrics) {
-        const iVal = avgFor(iframeList, m.key);
-        const wVal = avgFor(wcList, m.key);
+        const iVal = medianFor(iframeList, m.key);
+        const wVal = medianFor(wcList, m.key);
         const delta = (iVal != null && wVal != null) ? (iVal - wVal) : null; // iframe - web-component
         const deltaPct = pct(iVal, wVal);
         const cls = delta == null ? 'delta-neutral' : (delta < 0 ? 'delta-pos' : (delta > 0 ? 'delta-neg' : 'delta-neutral'));
@@ -254,8 +316,8 @@
           <tr>
             <th>Instances</th>
             <th>Metric</th>
-            <th>iframe avg</th>
-            <th>web-component avg</th>
+            <th>iframe p50</th>
+            <th>web-component p50</th>
             <th>delta (iframe - web-component)</th>
           </tr>
         </thead>
