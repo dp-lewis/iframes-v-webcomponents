@@ -111,11 +111,7 @@ Self-contained HTML document. Complete isolation. Old school.
 
 **Web Component version:**
 ```html
-<sports-scoreboard 
-  home-score="0" 
-  away-score="0" 
-  game-status="Scheduled">
-</sports-scoreboard>
+<sports-scoreboard></sports-scoreboard>
 ```
 Custom element with Shadow DOM. Modern standards. New school.
 

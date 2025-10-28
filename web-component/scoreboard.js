@@ -4,10 +4,17 @@ class SportsScoreboard extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.gameEvents = [];
         this.currentEventIndex = 0;
-    }
-
-    static get observedAttributes() {
-        return ['home-score', 'away-score', 'game-status', 'period', 'time-remaining'];
+        
+        // Default state
+        this.state = {
+            homeTeam: 'Red Dragons',
+            awayTeam: 'Blue Knights',
+            homeScore: 0,
+            awayScore: 0,
+            status: 'Scheduled',
+            period: '1st',
+            timeRemaining: '12:00'
+        };
     }
 
     connectedCallback() {
@@ -58,55 +65,47 @@ class SportsScoreboard extends HTMLElement {
     }
 
     applyEvent(event) {
-        this.setAttribute('home-score', event.homeScore);
-        this.setAttribute('away-score', event.awayScore);
-        this.setAttribute('game-status', event.status);
-        this.setAttribute('period', event.period);
-        this.setAttribute('time-remaining', event.timeRemaining);
+        this.state.homeScore = event.homeScore;
+        this.state.awayScore = event.awayScore;
+        this.state.status = event.status;
+        this.state.period = event.period;
+        this.state.timeRemaining = event.timeRemaining;
+        
+        // Update the DOM
+        this.updateDisplay();
+    }
+
+    updateDisplay() {
+        const homeScoreEl = this.shadowRoot.querySelector('[data-team="home"]');
+        const awayScoreEl = this.shadowRoot.querySelector('[data-team="away"]');
+        const statusEl = this.shadowRoot.querySelector('.game-status');
+        const timeEl = this.shadowRoot.querySelector('.game-time');
+        
+        if (homeScoreEl) {
+            this.animateScore(homeScoreEl, this.state.homeScore);
+        }
+        if (awayScoreEl) {
+            this.animateScore(awayScoreEl, this.state.awayScore);
+        }
+        if (statusEl) {
+            statusEl.textContent = this.state.status;
+        }
+        if (timeEl) {
+            timeEl.textContent = `${this.state.period} ${this.state.timeRemaining}`;
+        }
     }
 
     fallbackSimulation() {
         // Fallback to random updates if JSON fails to load
         const updateScores = () => {
-            const homeScore = Math.floor(Math.random() * 100);
-            const awayScore = Math.floor(Math.random() * 100);
+            this.state.homeScore = Math.floor(Math.random() * 100);
+            this.state.awayScore = Math.floor(Math.random() * 100);
             
-            this.setAttribute('home-score', homeScore);
-            this.setAttribute('away-score', awayScore);
+            this.updateDisplay();
             
             this.simulationTimeout = setTimeout(updateScores, 5000);
         };
         updateScores();
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue !== newValue && this.shadowRoot.querySelector('.scoreboard')) {
-            switch (name) {
-                case 'home-score':
-                case 'away-score':
-                    this.updateScore(name, newValue);
-                    break;
-                case 'game-status':
-                    this.shadowRoot.querySelector('.game-status').textContent = newValue;
-                    break;
-                case 'period':
-                case 'time-remaining':
-                    this.updateTime();
-                    break;
-            }
-        }
-    }
-
-    updateScore(type, newScore) {
-        const team = type === 'home-score' ? 'home' : 'away';
-        const scoreElement = this.shadowRoot.querySelector(`.team-score[data-team="${team}"]`);
-        this.animateScore(scoreElement, newScore);
-    }
-
-    updateTime() {
-        const period = this.getAttribute('period');
-        const timeRemaining = this.getAttribute('time-remaining');
-        this.shadowRoot.querySelector('.game-time').textContent = `${period} ${timeRemaining}`;
     }
 
     animateScore(element, newScore) {
@@ -186,17 +185,17 @@ class SportsScoreboard extends HTMLElement {
             </style>
             <div class="scoreboard">
                 <div class="scoreboard-header">
-                    <span class="game-status">${this.getAttribute('game-status')}</span>
-                    <span class="game-time">${this.getAttribute('period')} ${this.getAttribute('time-remaining')}</span>
+                    <span class="game-status">${this.state.status}</span>
+                    <span class="game-time">${this.state.period} ${this.state.timeRemaining}</span>
                 </div>
                 <div class="teams">
                     <div class="team">
-                        <span class="team-name">${this.getAttribute('home-team')}</span>
-                        <span class="team-score" data-team="home">${this.getAttribute('home-score')}</span>
+                        <span class="team-name">${this.state.homeTeam}</span>
+                        <span class="team-score" data-team="home">${this.state.homeScore}</span>
                     </div>
                     <div class="team">
-                        <span class="team-name">${this.getAttribute('away-team')}</span>
-                        <span class="team-score" data-team="away">${this.getAttribute('away-score')}</span>
+                        <span class="team-name">${this.state.awayTeam}</span>
+                        <span class="team-score" data-team="away">${this.state.awayScore}</span>
                     </div>
                 </div>
             </div>
