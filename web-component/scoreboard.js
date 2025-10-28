@@ -2,6 +2,8 @@ class SportsScoreboard extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.gameEvents = [];
+        this.currentEventIndex = 0;
     }
 
     static get observedAttributes() {
@@ -23,20 +25,64 @@ class SportsScoreboard extends HTMLElement {
 
     disconnectedCallback() {
         // Clean up interval when component is removed
-        if (this.simulationInterval) {
-            clearInterval(this.simulationInterval);
+        if (this.simulationTimeout) {
+            clearTimeout(this.simulationTimeout);
         }
     }
 
-    startSimulation() {
-        // Simulate random score updates every 5 seconds
-        this.simulationInterval = setInterval(() => {
+    async startSimulation() {
+        try {
+            // Fetch game events data
+            const response = await fetch('/shared/data/game-events.json');
+            const data = await response.json();
+            this.gameEvents = data.events;
+            
+            // Start replaying events
+            this.replayEvents();
+        } catch (error) {
+            console.error('Failed to load game events:', error);
+            // Fallback to simple simulation if fetch fails
+            this.fallbackSimulation();
+        }
+    }
+
+    replayEvents() {
+        if (!this.gameEvents || this.gameEvents.length === 0) {
+            this.fallbackSimulation();
+            return;
+        }
+
+        // Apply the current event
+        const event = this.gameEvents[this.currentEventIndex];
+        this.applyEvent(event);
+
+        // Move to next event (loop back to start if at end)
+        this.currentEventIndex = (this.currentEventIndex + 1) % this.gameEvents.length;
+
+        // Schedule next update (every 5 seconds)
+        this.simulationTimeout = setTimeout(() => this.replayEvents(), 5000);
+    }
+
+    applyEvent(event) {
+        this.setAttribute('home-score', event.homeScore);
+        this.setAttribute('away-score', event.awayScore);
+        this.setAttribute('game-status', event.status);
+        this.setAttribute('period', event.period);
+        this.setAttribute('time-remaining', event.timeRemaining);
+    }
+
+    fallbackSimulation() {
+        // Fallback to random updates if JSON fails to load
+        const updateScores = () => {
             const homeScore = Math.floor(Math.random() * 100);
             const awayScore = Math.floor(Math.random() * 100);
             
             this.setAttribute('home-score', homeScore);
             this.setAttribute('away-score', awayScore);
-        }, 5000);
+            
+            this.simulationTimeout = setTimeout(updateScores, 5000);
+        };
+        updateScores();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {

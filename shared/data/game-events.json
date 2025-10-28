@@ -1,0 +1,127 @@
+{
+  "gameId": "game-001",
+  "homeTeam": "Red Dragons",
+  "awayTeam": "Blue Knights",
+  "events": [
+    {
+      "timestamp": 0,
+      "homeScore": 0,
+      "awayScore": 0,
+      "period": "1st",
+      "timeRemaining": "12:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 120,
+      "homeScore": 2,
+      "awayScore": 0,
+      "period": "1st",
+      "timeRemaining": "10:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 180,
+      "homeScore": 2,
+      "awayScore": 3,
+      "period": "1st",
+      "timeRemaining": "9:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 240,
+      "homeScore": 5,
+      "awayScore": 3,
+      "period": "1st",
+      "timeRemaining": "8:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 360,
+      "homeScore": 5,
+      "awayScore": 6,
+      "period": "1st",
+      "timeRemaining": "6:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 480,
+      "homeScore": 8,
+      "awayScore": 6,
+      "period": "1st",
+      "timeRemaining": "4:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 600,
+      "homeScore": 8,
+      "awayScore": 9,
+      "period": "1st",
+      "timeRemaining": "2:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 720,
+      "homeScore": 11,
+      "awayScore": 9,
+      "period": "1st",
+      "timeRemaining": "0:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 840,
+      "homeScore": 11,
+      "awayScore": 12,
+      "period": "2nd",
+      "timeRemaining": "10:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 960,
+      "homeScore": 14,
+      "awayScore": 12,
+      "period": "2nd",
+      "timeRemaining": "8:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 1080,
+      "homeScore": 14,
+      "awayScore": 15,
+      "period": "2nd",
+      "timeRemaining": "6:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 1200,
+      "homeScore": 17,
+      "awayScore": 15,
+      "period": "2nd",
+      "timeRemaining": "4:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 1320,
+      "homeScore": 17,
+      "awayScore": 18,
+      "period": "2nd",
+      "timeRemaining": "2:00",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 1440,
+      "homeScore": 20,
+      "awayScore": 18,
+      "period": "2nd",
+      "timeRemaining": "0:30",
+      "status": "LIVE"
+    },
+    {
+      "timestamp": 1470,
+      "homeScore": 20,
+      "awayScore": 21,
+      "period": "2nd",
+      "timeRemaining": "0:00",
+      "status": "FINAL"
+    }
+  ]
+}
