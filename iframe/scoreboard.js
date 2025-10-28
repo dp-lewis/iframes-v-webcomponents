@@ -14,8 +14,8 @@ class Scoreboard {
 
     async startSimulation() {
         try {
-            // Fetch game events data
-            const response = await fetch('/shared/data/game-events.json');
+            // Fetch game events data with cache-busting
+            const response = await fetch(`/shared/data/game-events.json?_t=${Date.now()}`);
             const data = await response.json();
             this.gameEvents = data.events;
             
