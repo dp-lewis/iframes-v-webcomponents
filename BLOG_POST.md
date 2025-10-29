@@ -403,11 +403,9 @@ If you're building a widget - whether iframe or Web Component - ask yourself:
 - Does this need to work on IE11? (No, it's 2025)
 - Will users notice if I remove this library? (Probably not)
 
-Build for **2025**, not 2015. Browsers are incredibly capable now. You don't need jQuery. You don't need React for a scoreboard. You don't need 500KB of dependencies to show a weather icon.
+Build for 2025, not 2015. Browsers are incredibly capable now. You don't need jQuery. You don't need React for a scoreboard. You don't need 500KB of dependencies to show a weather icon.
 
-**Ship less. Ship faster. Respect your users' bandwidth, battery, and time.**
-
-The "right" choice depends on your use case. But now you have **data**, not opinions.
+Ship less. Ship faster. Respect your users' bandwidth, battery, and time.
 
 ### Further Reading
 
@@ -418,7 +416,7 @@ The "right" choice depends on your use case. But now you have **data**, not opin
 
 ### The Code
 
-⭐ **[GitHub Repository](https://github.com/[your-username]/iframes-v-webcomponents)** - Star if you found this useful!
+⭐ **[GitHub Repository](https://github.com/dp-lewis/iframes-v-webcomponents)** - Star if you found this useful!
 
 ---
 
@@ -426,9 +424,3 @@ The "right" choice depends on your use case. But now you have **data**, not opin
 
 What's your experience with iframes vs Web Components? Have you noticed different performance characteristics? Share your findings in the comments!
 
----
-
-**About the Author**
-[Your bio]
-
-**Tags:** #WebPerformance #WebComponents #JavaScript #Frontend #PerformanceTesting
